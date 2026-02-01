@@ -5,6 +5,8 @@
  */
 package Main;
 
+import staff.StaffDashboard;
+import admin.AdminDashboard;
 import config.config;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,7 +79,7 @@ public class NewJFrame extends javax.swing.JFrame {
         RIGHT.setBackground(new java.awt.Color(153, 204, 255));
         RIGHT.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/download (1).png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/download (1) (1).png"))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Calisto MT", 1, 30)); // NOI18N
         jLabel4.setText("LAUNDRY SHOP");
@@ -253,6 +255,7 @@ public class NewJFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
@@ -287,7 +290,7 @@ public class NewJFrame extends javax.swing.JFrame {
             String role = rs.getString("type");
             String status = rs.getString("status");
 
-            if (!status.equals("Approved")) {
+            if (!status.equals("Active")) {
                 JOptionPane.showMessageDialog(this, "Account not approved yet");
             } else {
                 JOptionPane.showMessageDialog(this, "Login Successful!");
@@ -324,7 +327,17 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-         System.exit(0);
+        int choice = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to exit the system?",
+        "Exit Confirmation",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE
+    );
+
+    if (choice == JOptionPane.YES_OPTION) {
+        System.exit(0);
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     

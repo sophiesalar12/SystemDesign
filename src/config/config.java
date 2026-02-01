@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 public class config {
 
@@ -59,5 +60,21 @@ public int addRecord(String sql, Object... values) {
         return 0;
     }
 }
+
+
+public void displayData(String sql, javax.swing.JTable table) {
+    try (Connection conn = connectDB();
+         PreparedStatement pstmt = conn.prepareStatement(sql);
+         ResultSet rs = pstmt.executeQuery()) {
+        
+        // This line automatically maps the Resultset to your JTable
+        table.setModel(DbUtils.resultSetToTableModel(rs));
+        
+    } catch (SQLException e) {
+        System.out.println("Error displaying data: " + e.getMessage());
+    }
+}
+
+
 
 }

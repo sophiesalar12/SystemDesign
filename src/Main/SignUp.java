@@ -52,7 +52,7 @@ public class SignUp extends javax.swing.JFrame {
         RIGHT.setBackground(new java.awt.Color(153, 204, 255));
         RIGHT.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/download (1).png"))); // NOI18N
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/download (1) (1).png"))); // NOI18N
 
         jLabel12.setFont(new java.awt.Font("Calisto MT", 1, 30)); // NOI18N
         jLabel12.setText("LAUNDRY SHOP");
@@ -252,6 +252,7 @@ public class SignUp extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed

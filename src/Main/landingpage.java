@@ -39,8 +39,8 @@ public class landingpage extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(960, 650));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/download (1).png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, 238, 208));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/download (1) (1) (2).png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 40, 270, 280));
 
         jLabel2.setFont(new java.awt.Font("Calisto MT", 1, 36)); // NOI18N
         jLabel2.setText("LAUNDRY SHOP MANAGEMENT SYSTEM");
@@ -71,6 +71,7 @@ public class landingpage extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
