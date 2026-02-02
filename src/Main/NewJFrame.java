@@ -5,6 +5,13 @@
  */
 package Main;
 
+import staff.StaffDashboard;
+import admin.AdminDashboard;
+import config.config;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 
 
 /**
@@ -18,7 +25,7 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     public NewJFrame() {
         initComponents();
-        defaultEchoChar = jPasswordField1.getEchoChar();
+        defaultEchoChar = pass.getEchoChar();
     }
 
     /**
@@ -40,9 +47,9 @@ public class NewJFrame extends javax.swing.JFrame {
         LEFT = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        pass = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -72,7 +79,7 @@ public class NewJFrame extends javax.swing.JFrame {
         RIGHT.setBackground(new java.awt.Color(153, 204, 255));
         RIGHT.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/download (1).png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/download (1) (1).png"))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Calisto MT", 1, 30)); // NOI18N
         jLabel4.setText("LAUNDRY SHOP");
@@ -122,17 +129,17 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Email");
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        email.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
+        email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                emailActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Password");
 
-        jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        pass.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
@@ -190,7 +197,7 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGroup(LEFTLayout.createSequentialGroup()
                             .addGap(12, 12, 12)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(LEFTLayout.createSequentialGroup()
                             .addGap(12, 12, 12)
                             .addComponent(jLabel3))
@@ -203,7 +210,7 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addContainerGap()
                             .addGroup(LEFTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jCheckBox1)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(LEFTLayout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addComponent(jButton2)))
@@ -217,11 +224,11 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
@@ -248,14 +255,67 @@ public class NewJFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
        
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_emailActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    String userEmail = email.getText();
+    String userPass = String.valueOf(pass.getPassword());
+
+    if (userEmail.isEmpty() || userPass.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill in all fields");
+        return;
+    }
+
+    String sql = "SELECT type, status FROM tbl_accounts WHERE email = ? AND password = ?";
+
+    try {
+        config con = new config();
+
         
+        java.sql.Connection conn = con.connectDB();
+
+        
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, userEmail);
+        pst.setString(2, userPass);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String role = rs.getString("type");
+            String status = rs.getString("status");
+
+            if (!status.equals("Active")) {
+                JOptionPane.showMessageDialog(this, "Account not approved yet");
+            } else {
+                JOptionPane.showMessageDialog(this, "Login Successful!");
+
+                if (role.equals("Admin")) {
+                    new AdminDashboard().setVisible(true);
+                } else {
+                    new StaffDashboard().setVisible(true);
+                }
+
+                this.dispose();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid email or password");
+        }
+
+        
+        rs.close();
+        pst.close();
+        conn.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Login error: " + e.getMessage());
+    }        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -267,7 +327,17 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-         System.exit(0);
+        int choice = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to exit the system?",
+        "Exit Confirmation",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE
+    );
+
+    if (choice == JOptionPane.YES_OPTION) {
+        System.exit(0);
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     
@@ -275,9 +345,9 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
     if (jCheckBox1.isSelected()) {
-        jPasswordField1.setEchoChar((char) 0); // SHOW password
+        pass.setEchoChar((char) 0); // SHOW password
     } else {
-        jPasswordField1.setEchoChar(defaultEchoChar); // HIDE password
+        pass.setEchoChar(defaultEchoChar); // HIDE password
     }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
@@ -319,6 +389,7 @@ public class NewJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LEFT;
     private javax.swing.JPanel RIGHT;
+    private javax.swing.JTextField email;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -331,8 +402,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPasswordField pass;
     // End of variables declaration//GEN-END:variables
 }
